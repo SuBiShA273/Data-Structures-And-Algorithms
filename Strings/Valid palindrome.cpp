@@ -18,48 +18,49 @@ Approaches:
    - Space Complexity: O(1)
 */
 
-#include <bits/stdc++.h>
-using namespace std;
-
-// Helper: Check if character is alphanumeric
-bool isAlphaNum(char c) {
-    return isalnum(c);
-}
-
-// Approach 1: Extreme Brute Force
-bool isPalindromeBrute(string s) {
-    string cleaned = "";
-    for (char c : s) {
-        if (isAlphaNum(c)) cleaned += tolower(c);
+class Solution {
+    // Helper: Check if character is alphanumeric
+    private boolean isAlphaNum(char c) {
+        return Character.isLetterOrDigit(c);
     }
-    string reversed = cleaned;
-    reverse(reversed.begin(), reversed.end());
-    return cleaned == reversed;
-}
 
-// Approach 2: Two-Pointer (Optimal)
-bool isPalindromeTwoPointer(string s) {
-    int left = 0, right = s.size() - 1;
-    while (left < right) {
-        while (left < right && !isAlphaNum(s[left])) left++;
-        while (left < right && !isAlphaNum(s[right])) right--;
-        if (tolower(s[left]) != tolower(s[right])) return false;
-        left++;
-        right--;
+    // Approach 1: Extreme Brute Force
+    public boolean isPalindromeBrute(String s) {
+        StringBuilder cleaned = new StringBuilder();
+        for (char c : s.toCharArray()) {
+            if (isAlphaNum(c)) cleaned.append(Character.toLowerCase(c));
+        }
+        String str = cleaned.toString();
+        String reversed = cleaned.reverse().toString();
+        return str.equals(reversed);
     }
-    return true;
+
+    // Approach 2: Two-Pointer (Optimal)
+    public boolean isPalindromeTwoPointer(String s) {
+        int left = 0, right = s.length() - 1;
+        while (left < right) {
+            while (left < right && !isAlphaNum(s.charAt(left))) left++;
+            while (left < right && !isAlphaNum(s.charAt(right))) right--;
+            if (Character.toLowerCase(s.charAt(left)) != Character.toLowerCase(s.charAt(right))) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
 }
 
-int main() {
-    string s = "A man, a plan, a canal: Panama";
+// Driver class
+public class Main {
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        String s = "A man, a plan, a canal: Panama";
 
-    // Test Brute Force
-    cout << "Brute Force Result: "
-         << (isPalindromeBrute(s) ? "True" : "False") << endl;
+        // Test Brute Force
+        System.out.println("Brute Force Result: " + sol.isPalindromeBrute(s)); // true
 
-    // Test Two-Pointer
-    cout << "Two-Pointer Result: "
-         << (isPalindromeTwoPointer(s) ? "True" : "False") << endl;
-
-    return 0;
+        // Test Two-Pointer
+        System.out.println("Two-Pointer Result: " + sol.isPalindromeTwoPointer(s)); // true
+    }
 }
